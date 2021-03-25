@@ -46,31 +46,28 @@ public class MovieGuess {
 
         String hiddenMovie = chosenMovie.replaceAll("[a-zA-z]", "_");
         String nonMatches = "";
+        String matches = "";
         char[] hiddenArray = hiddenMovie.toCharArray();
         for(int i = 10; i > 0; i--) {
             System.out.println("\nYou have " + i + " chance(s) left.");
-            System.out.println("\nMovie to guess: " + hiddenMovie);
+            System.out.println("Movie to guess: " + hiddenMovie);
             System.out.print("Your letter: ");
             char guess = letter.next().charAt(0);
 
-            // replaces underscores with letters if user guess was right
-            for(int j = 0; j < chosenMovie.length(); j++) {
-                if(chosenMovie.charAt(j) == guess) {
-                    hiddenArray[j] = guess;
-                }
-            }
-            hiddenMovie = new String(hiddenArray);
-
-            // displays info if guess was right
-            if(hiddenMovie.indexOf(guess) != -1) {
-                System.out.println("Nice! " + guess + " is one of the letters");
+            // checks if guess was right
+            if(chosenMovie.indexOf(guess) != -1) {
+                matches += guess;
+                hiddenArray[chosenMovie.indexOf(guess)] = guess;
+                hiddenMovie = new String(hiddenArray);
+                System.out.println("Nice! '" + guess + "' is one of the letters");
             } else {
-                System.out.println("This wasn't a correct letter.");
+                System.out.println("This wasn't a correct letter.\n");
 
                 if(nonMatches.indexOf(guess) == -1) {
                     nonMatches += guess;
-                } else {
+                } else if (nonMatches.indexOf(guess) != -1 || matches.indexOf(guess) != -1) {
                     System.out.println("You already tried that letter!");
+                    i++;
                 } 
 
                 System.out.print("Letters that didn't match: ");
